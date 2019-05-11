@@ -4,12 +4,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace LogViewer
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var host = new HostBuilder()
                 .ConfigureAppConfiguration((hostContext, configBuilder) =>
@@ -34,7 +35,7 @@ namespace LogViewer
                 .UseConsoleLifetime()
                 .Build();
 
-            host.Run();
+            await host.RunAsync();
         }
     }
 }
