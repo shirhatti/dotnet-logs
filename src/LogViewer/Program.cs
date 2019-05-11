@@ -10,7 +10,7 @@ namespace LogViewer
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             var host = new HostBuilder()
                 .ConfigureAppConfiguration((hostContext, configBuilder) =>
@@ -35,7 +35,7 @@ namespace LogViewer
                 .UseConsoleLifetime()
                 .Build();
 
-            await host.RunAsync();
+            host.Run();
         }
     }
 }
