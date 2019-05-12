@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace LogViewer
 {
-    public class LogViewerService : HostedService
+    public class LogViewerService : BackgroundService
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly LogViewerServiceOptions _options;
