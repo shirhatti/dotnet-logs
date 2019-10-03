@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Tracing;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Diagnostics.Tools.RuntimeClient;
 using Microsoft.Diagnostics.Tracing;
-using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -41,46 +39,21 @@ namespace LogViewer
                     requestRundown: false,
                     providers: providerList);
 
-            var binaryReader = EventPipeClient.CollectTracing(_options.ProcessId, configuration, out var sessionId);
-            var source = new EventPipeEventSource(binaryReader);
+            using var stream = EventPipeClient.CollectTracing2(_options.ProcessId, configuration, out var sessionId);
+            // The following call can block if there no events being received on the stream
+            // TODO: Workaround the blocking call
+            using var source = new EventPipeEventSource(stream);
             source.Dynamic.AddCallbackForProviderEvent(_MicrosoftExtensionsLoggingProviderName, "FormattedMessage", (traceEvent) =>
             {
                 // Level, FactoryID, LoggerName, EventID, EventName, FormattedMessage
                 var categoryName = (string)traceEvent.PayloadValue(2);
-                if (!loggerCache.ContainsKey(categoryName))
-                {
-                    loggerCache.TryAdd(categoryName, _loggerFactory.CreateLogger(categoryName));
-                }
-                if (loggerCache.TryGetValue(categoryName, out var logger))
-                {
-                    var logLevel = (LogLevel)traceEvent.PayloadValue(0);
-                    switch(logLevel)
-                    {
-                        case LogLevel.Trace:
-                            logger.LogTrace((string)traceEvent.PayloadValue(4));
-                            break;
-                        case LogLevel.Debug:
-                            logger.LogDebug((string)traceEvent.PayloadValue(4));
-                            break;
-                        case LogLevel.Information:
-                            logger.LogInformation((string)traceEvent.PayloadValue(4));
-                            break;
-                        case LogLevel.Warning:
-                            logger.LogWarning((string)traceEvent.PayloadValue(4));
-                            break;
-                        case LogLevel.Error:
-                            logger.LogError((string)traceEvent.PayloadValue(4));
-                            break;
-                        case LogLevel.Critical:
-                            logger.LogCritical((string)traceEvent.PayloadValue(4));
-                            break;
-                    }
-                }
+                var logger = _loggerFactory.CreateLogger(categoryName);
+                var logLevel = (LogLevel)traceEvent.PayloadValue(0);
+                var message = (string)traceEvent.PayloadValue(4);
+                logger.Log(logLevel, message);
             });
             source.Process();
-            _lifetime.StopApplication();
         }
-
     }
 
 
