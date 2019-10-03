@@ -7,18 +7,26 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Diagnostics.Tools.RuntimeClient" Version="3.0.47001" />
-    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.45" GeneratePathProperty="true"/>
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.45" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.0" />
   </ItemGroup>
 
-  <Target Condition="'$(PublishSingleFile)' == 'true'" AfterTargets="_ComputeFilesToBundle" Name="RemoveDupeAssemblies">
+  <Target Condition="'$(PublishSingleFile)' == 'true' And '$(PublishTrimmed)' == 'false'" AfterTargets="_ComputeFilesToBundle" Name="RemoveDupeAssemblies">
     <ItemGroup>
       <_FilesToBundle Remove="$(PkgMicrosoft_Diagnostics_Tracing_TraceEvent)\lib\netstandard1.6\Dia2Lib.dll" />
       <_FilesToBundle Remove="$(PkgMicrosoft_Diagnostics_Tracing_TraceEvent)\lib\netstandard1.6\OSExtensions.dll" />
       <_FilesToBundle Remove="$(PkgMicrosoft_Diagnostics_Tracing_TraceEvent)\lib\netstandard1.6\TraceReloggerLib.dll" />
+    </ItemGroup>
+  </Target>
+
+  <Target Condition="'$(PublishSingleFile)' == 'true' And '$(PublishTrimmed)' == 'true'" AfterTargets="_ComputeFilesToBundle" Name="RemoveDupeAssemblies">
+    <ItemGroup>
+      <_FilesToBundle Condition="%(_FilesToBundle.AssetType) == 'runtime'" Remove="$(IntermediateLinkDir)Dia2Lib.dll" />
+      <_FilesToBundle Condition="%(_FilesToBundle.AssetType) == 'runtime'" Remove="$(IntermediateLinkDir)OSExtensions.dll" />
+      <_FilesToBundle Condition="%(_FilesToBundle.AssetType) == 'runtime'" Remove="$(IntermediateLinkDir)TraceReloggerLib.dll" />
     </ItemGroup>
   </Target>
 
