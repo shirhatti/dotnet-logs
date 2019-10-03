@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9239B70C-C99
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer", "src\LogViewer\LogViewer.csproj", "{B5C0B4C1-D26A-4E51-A213-9248D9A6BC8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Diagnostics.Tools.RuntimeClient", "src\Microsoft.Diagnostics.Tools.RuntimeClient\Microsoft.Diagnostics.Tools.RuntimeClient.csproj", "{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,21 +32,8 @@ Global
 		{B5C0B4C1-D26A-4E51-A213-9248D9A6BC8F}.Release|x64.Build.0 = Release|Any CPU
 		{B5C0B4C1-D26A-4E51-A213-9248D9A6BC8F}.Release|x86.ActiveCfg = Release|Any CPU
 		{B5C0B4C1-D26A-4E51-A213-9248D9A6BC8F}.Release|x86.Build.0 = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|x64.Build.0 = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Debug|x86.Build.0 = Debug|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|x64.ActiveCfg = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|x64.Build.0 = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|x86.ActiveCfg = Release|Any CPU
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B5C0B4C1-D26A-4E51-A213-9248D9A6BC8F} = {9239B70C-C997-41C0-A16E-8C69A731BAF6}
-		{7FFEBE45-8E19-4A0A-B7A3-B83A1FF65875} = {9239B70C-C997-41C0-A16E-8C69A731BAF6}
 	EndGlobalSection
 EndGlobal
