@@ -20,3 +20,8 @@ jobs:
       run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: List artifacts
       run: ls /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/**/publish/*
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: LogViewer.win-x64.exe
+        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe
