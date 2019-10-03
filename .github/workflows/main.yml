@@ -1,0 +1,36 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+    
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.0.100' # SDK Version to use.
+    - name: Build win-x64
+      run: dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+    - name: Upload win-x64
+      uses: actions/upload-artifact@master
+      with:
+        name: LogViewer_win-x64.exe
+        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe
+    - name: Build osx-x64
+      run: dotnet publish -c Release -r osx-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+    - name: Upload osx-x64
+      uses: actions/upload-artifact@master
+      with:
+        name: LogViewer_osx-x64
+        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/osx-x64/publish/LogViewer
+    - name: Build linux-x64
+      run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+    - name: Upload win-x64
+      uses: actions/upload-artifact@master
+      with:
+        name: LogViewer_linux-x64
+        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/linux-x64/publish/LogViewer
+
