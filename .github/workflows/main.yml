@@ -13,9 +13,6 @@ jobs:
       uses: shirhatti/dotnet-buildexecutable-action@master
       env:
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-    - name: Upload artifacts
-      uses: skx/github-action-publish-binaries@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        args: '/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe'
+    - name: List artifacts
+      run: ls bin/Release/netcoreapp3.0/**/publish/
+
