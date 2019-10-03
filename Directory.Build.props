@@ -1,0 +1,9 @@
+<Project>
+ <PropertyGroup>
+   <RestoreSources>
+     $(RestoreSources);
+     https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json;
+     https://api.nuget.org/v3/index.json;
+   </RestoreSources>
+ </PropertyGroup>
+</Project>
