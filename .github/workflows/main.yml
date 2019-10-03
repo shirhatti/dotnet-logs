@@ -18,9 +18,5 @@ jobs:
       run: dotnet publish -c Release -r osx-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: Build linux-x64
       run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
-    - name: Upload artifacts
-      uses: skx/github-action-publish-binaries@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        args: '/home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe'
+    - name: List artifacts
+      run: ls /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/**/publish/*
