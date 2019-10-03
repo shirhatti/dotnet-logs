@@ -23,4 +23,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        args: '/home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/**/publish/*'
+        args: '/home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe'
