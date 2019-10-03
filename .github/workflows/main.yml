@@ -10,7 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: build
-      uses: azure/github-actions/dotnetcore-cli@master
-      with:
-        args: publish -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true
-
+      uses: shirhatti/dotnet-buildexecutable-action@master
