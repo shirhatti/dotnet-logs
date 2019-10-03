@@ -14,5 +14,5 @@ jobs:
       env:
         DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
     - name: List artifacts
-      run: ls bin/Release/netcoreapp3.0/**/publish/
+      run: ls *
 
