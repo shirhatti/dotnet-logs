@@ -17,9 +17,10 @@ namespace LogViewer
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly LogViewerServiceOptions _options;
-        private readonly IApplicationLifetime _lifetime;
+        private readonly IHostApplicationLifetime _lifetime;
+        private static readonly string _MicrosoftExtensionsLoggingProviderName = "Microsoft-Extensions-Logging";
         private readonly IDictionary<string, ILogger> loggerCache = new Dictionary<string, ILogger>();
-        public LogViewerService(ILoggerFactory loggerFactory, IOptions<LogViewerServiceOptions> options, IApplicationLifetime applicationLifetime)
+        public LogViewerService(ILoggerFactory loggerFactory, IOptions<LogViewerServiceOptions> options, IHostApplicationLifetime applicationLifetime)
         {
             _loggerFactory = loggerFactory;
             _options = options.Value;
@@ -30,18 +31,19 @@ namespace LogViewer
             await Task.Yield();
             var providerList = new List<Provider>()
             {
-                new Provider(name: "Microsoft-Extensions-Logging",
+                new Provider(name: _MicrosoftExtensionsLoggingProviderName,
                              keywords: (ulong)LoggingEventSource.Keywords.FormattedMessage,
                              eventLevel: EventLevel.LogAlways)
             };
-            var configuration = new SessionConfiguration(
+            var configuration = new SessionConfigurationV2(
                     circularBufferSizeMB: 1000,
-                    outputPath: "",
+                    format: EventPipeSerializationFormat.NetTrace,
+                    requestRundown: false,
                     providers: providerList);
 
             var binaryReader = EventPipeClient.CollectTracing(_options.ProcessId, configuration, out var sessionId);
             var source = new EventPipeEventSource(binaryReader);
-            source.Dynamic.AddCallbackForProviderEvent("Microsoft-Extensions-Logging", "FormattedMessage", (traceEvent) =>
+            source.Dynamic.AddCallbackForProviderEvent(_MicrosoftExtensionsLoggingProviderName, "FormattedMessage", (traceEvent) =>
             {
                 // Level, FactoryID, LoggerName, EventID, EventName, FormattedMessage
                 var categoryName = (string)traceEvent.PayloadValue(2);
