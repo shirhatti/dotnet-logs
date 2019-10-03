@@ -13,8 +13,8 @@ jobs:
       with:
         dotnet-version: '3.0.100' # SDK Version to use.
     - name: Build win-x64
-      run: dotnet publish -C Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+      run: dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: Build osx-x64
-      run: dotnet publish -C Release -r osx-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+      run: dotnet publish -c Release -r osx-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: Build linux-x64
-      run: dotnet publish -C Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
+      run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
