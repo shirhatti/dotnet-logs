@@ -1,0 +1,16 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/download-artifact@master
+      name: Download win-x64
+      with:
+        name: LogViewer_win-x64.exe
+    - run: ls
+ 
