@@ -40,18 +40,19 @@ namespace LogViewer
 
             using var stream = EventPipeClient.CollectTracing2(_options.ProcessId, configuration, out var sessionId);
 
-            var tcs = new TaskCompletionSource<bool>();
             cancellationToken.Register(() =>
             {
-                tcs.TrySetCanceled();
+                EventPipeClient.StopTracing(_options.ProcessId, sessionId);
             });
-            var processEventsTask = Task.Run(() => ProcessEvents(stream));
-            var completedTask = await Task.WhenAny(tcs.Task, processEventsTask);
             
-            if (completedTask == processEventsTask)
+            await Task.Run(() => ProcessEvents(stream));
+
+            // This happens when the process we've attached to has disconnected
+            if (!cancellationToken.IsCancellationRequested)
             {
                 _lifetime.StopApplication();
             }
+
         }
 
         private void ProcessEvents(System.IO.Stream stream)
