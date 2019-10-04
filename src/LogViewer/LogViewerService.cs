@@ -26,7 +26,6 @@ namespace LogViewer
         }
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            await Task.Yield();
             var providerList = new List<Provider>()
             {
                 new Provider(name: _MicrosoftExtensionsLoggingProviderName,
@@ -40,8 +39,23 @@ namespace LogViewer
                     providers: providerList);
 
             using var stream = EventPipeClient.CollectTracing2(_options.ProcessId, configuration, out var sessionId);
-            // The following call can block if there no events being received on the stream
-            // TODO: Workaround the blocking call
+
+            var tcs = new TaskCompletionSource<bool>();
+            cancellationToken.Register(() =>
+            {
+                tcs.TrySetCanceled();
+            });
+            var processEventsTask = Task.Run(() => ProcessEvents(stream));
+            var completedTask = await Task.WhenAny(tcs.Task, processEventsTask);
+            
+            if (completedTask == processEventsTask)
+            {
+                _lifetime.StopApplication();
+            }
+        }
+
+        private void ProcessEvents(System.IO.Stream stream)
+        {
             using var source = new EventPipeEventSource(stream);
             source.Dynamic.AddCallbackForProviderEvent(_MicrosoftExtensionsLoggingProviderName, "FormattedMessage", (traceEvent) =>
             {
