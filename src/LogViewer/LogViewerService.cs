@@ -39,8 +39,9 @@ namespace LogViewer
         private void ReloadConfiguration(LoggerFilterOptions options)
         {
             _loggerOptions = options;
-            BuildConfiguration();
             _loggerFactory.CreateLogger<LogViewerService>().LogInformation("Configuration was reloaded");
+            EventPipeClient.StopTracing(_logViewerOptions.ProcessId, _sessionId);
+            BuildConfiguration();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -76,7 +77,6 @@ namespace LogViewer
             {
                 if ((string.IsNullOrEmpty(filter.ProviderName) || filter.ProviderName.Equals(typeof(ConsoleLoggerProvider).FullName)) && filter.LogLevel.HasValue)
                 {
-                    if (string.IsNullOrEmpty(filter.CategoryName)) continue;
                     var categoryName = string.IsNullOrEmpty(filter.CategoryName) ? "Default" : filter.CategoryName;
                     filterDataStringBuilder.Append($"{categoryName}:{filter.LogLevel};");
                 }
