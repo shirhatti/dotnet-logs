@@ -10,32 +10,17 @@ namespace LogViewer
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var host = new HostBuilder()
-                .ConfigureAppConfiguration((hostContext, configBuilder) =>
-                {
-                    configBuilder.AddCommandLine(args);
-                    configBuilder.SetBasePath(Directory.GetCurrentDirectory());
-                    configBuilder.AddJsonFile("appsettings.json", optional: true);
-                    configBuilder.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
-                })
-                .ConfigureLogging((hostContext, loggingBuilder) =>
-                {
-                    loggingBuilder.AddConsole();
-                })
-                .ConfigureServices((hostContext, services) =>
-                {   
-                    services.Configure<HostOptions>(options =>
-                    {
-                        options.ShutdownTimeout = TimeSpan.FromSeconds(5);
-                    });
-                    services.AddLogViewer(hostContext.Configuration);
-                })
-                .UseConsoleLifetime()
-                .Build();
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+           Host.CreateDefaultBuilder(args)
+           .ConfigureServices((hostBuilder, services) =>
+           {
+               services.AddHostedService<LogViewerService>();
+               services.Configure<LogViewerServiceOptions>(hostBuilder.Configuration);
+           });
     }
 }

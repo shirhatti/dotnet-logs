@@ -2,7 +2,7 @@
   "profiles": {
     "LogViewer": {
       "commandName": "Project",
-      "commandLineArgs": "--ProcessId=15056"
+      "commandLineArgs": "--ProcessId=15700"
     }
   }
 }
