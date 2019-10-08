@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F9F183D3-BDAF-4FFC-B389-080B9DE1BE82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-logs", "src\dotnet-logs\dotnet-logs.csproj", "{8554D2C5-D345-4074-834A-912821CA3D9C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|x64.Build.0 = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Debug|x86.Build.0 = Debug|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|x64.Build.0 = Release|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{8554D2C5-D345-4074-834A-912821CA3D9C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8554D2C5-D345-4074-834A-912821CA3D9C} = {F9F183D3-BDAF-4FFC-B389-080B9DE1BE82}
+	EndGlobalSection
+EndGlobal
