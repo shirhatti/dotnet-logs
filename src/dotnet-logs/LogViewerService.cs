@@ -12,28 +12,34 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.Diagnostic.Tools.Logs
+namespace Microsoft.Diagnostics.Tools.Logs
 {
     public class LogViewerService : BackgroundService
     {
-        private IDisposable _optionsReloadToken;
-        private LoggerFilterOptions _loggerOptions;
-        private ulong _sessionId;
+        private static readonly string _MicrosoftExtensionsLoggingProviderName = "Microsoft-Extensions-Logging";
+
         private readonly ILoggerFactory _loggerFactory;
         private readonly LogViewerServiceOptions _logViewerOptions;
         private readonly IHostApplicationLifetime _lifetime;
-        private static readonly string _MicrosoftExtensionsLoggingProviderName = "Microsoft-Extensions-Logging";
+
+        private IDisposable _optionsReloadToken;
+        private LoggerFilterOptions _loggerOptions;
+        private ulong _sessionId;
         private Stream _eventStream;
         private List<Provider> _providerList;
         private SessionConfigurationV2 _configuration;
-        private readonly IDictionary<string, ILogger> loggerCache = new Dictionary<string, ILogger>();
-        public LogViewerService(ILoggerFactory loggerFactory, IOptions<LogViewerServiceOptions> logViewerOptions, IHostApplicationLifetime applicationLifetime, IOptionsMonitor<LoggerFilterOptions> loggerOptions)
+
+        public LogViewerService(IOptions<LogViewerServiceOptions> logViewerOptions, IHostApplicationLifetime applicationLifetime, IOptionsMonitor<LoggerFilterOptions> loggerOptions)
         {
             _loggerOptions = loggerOptions.CurrentValue;
             _optionsReloadToken = loggerOptions.OnChange(ReloadConfiguration);
-            _loggerFactory = loggerFactory;
             _logViewerOptions = logViewerOptions.Value;
             _lifetime = applicationLifetime;
+            _loggerFactory = LoggerFactory.Create(logging =>
+            {
+                logging.AddConsole();
+                logging.AddFilter(_ => true);
+            });
         }
 
         private void ReloadConfiguration(LoggerFilterOptions options)
@@ -41,13 +47,10 @@ namespace Microsoft.Diagnostic.Tools.Logs
             _loggerOptions = options;
             _loggerFactory.CreateLogger<LogViewerService>().LogInformation("Configuration was reloaded");
             EventPipeClient.StopTracing(_logViewerOptions.ProcessId, _sessionId);
-            BuildConfiguration();
         }
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            BuildConfiguration();
-
             cancellationToken.Register(() =>
             {
                 _optionsReloadToken?.Dispose();
@@ -56,12 +59,11 @@ namespace Microsoft.Diagnostic.Tools.Logs
 
             while (!cancellationToken.IsCancellationRequested)
             {
+                BuildConfiguration();
                 _eventStream = EventPipeClient.CollectTracing2(_logViewerOptions.ProcessId, _configuration, out _sessionId);
                 await Task.Run(() => ProcessEvents());
             }
 
-            // This happens when the process we've attached to has disconnected
-            // TODO: This is might be racy. Review this
             if (!cancellationToken.IsCancellationRequested)
             {
                 _lifetime.StopApplication();
@@ -91,7 +93,7 @@ namespace Microsoft.Diagnostic.Tools.Logs
                              filterData: filterData)
             };
             _configuration = new SessionConfigurationV2(
-                    circularBufferSizeMB: 1000,
+                    circularBufferSizeMB: 100,
                     format: EventPipeSerializationFormat.NetTrace,
                     requestRundown: false,
                     providers: _providerList);
@@ -118,26 +120,4 @@ namespace Microsoft.Diagnostic.Tools.Logs
             _eventStream?.Dispose();
         }
     }
-
-    //class MyEventListener : EventListener
-    //{
-    //    protected override void OnEventSourceCreated(EventSource eventSource)
-    //    {
-    //        if (eventSource.Name == "Microsoft-Extensions-Logging")
-    //        {
-    //            // initialize a string, string dictionary of arguments to pass to the EventSource.
-    //            // Turn on loggers matching App* to Information, everything else (*) is the default level (which is EventLevel.Error)
-    //            var args = new Dictionary<string, string>() { { "FilterSpecs", "App*:Information;*" } };
-    //            // Set the default level (verbosity) to Error, and only ask for the formatted messages in this case.
-    //            EnableEvents(eventSource, EventLevel.Error, LoggingEventSource.Keywords.FormattedMessage, args);
-    //        }
-    //    }
-    //    protected override void OnEventWritten(EventWrittenEventArgs eventData)
-    //    {
-    //        // Look for the formatted message event, which has the following argument layout (as defined in the LoggingEventSource.
-    //        // FormattedMessage(LogLevel Level, int FactoryID, string LoggerName, string EventId, string FormattedMessage);
-    //        if (eventData.EventName == "FormattedMessage")
-    //            Console.WriteLine("Logger {0}: {1}", eventData.Payload[2], eventData.Payload[4]);
-    //    }
-    //}
 }

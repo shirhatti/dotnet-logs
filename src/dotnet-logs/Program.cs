@@ -1,26 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
+﻿using Microsoft.Diagnostics.Tools.Logs.Commands;
+using System.CommandLine.Builder;
+using System.CommandLine.Invocation;
 using System.Threading.Tasks;
 
-namespace Microsoft.Diagnostic.Tools.Logs
+namespace Microsoft.Diagnostics.Tools.Logs
 {
-    class Program
+    public class Program
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        public async static Task<int> Main(string[] args) =>
+            await new CommandLineBuilder()
+                .AddCommand(ListProcessesCommand.Create())
+                .AddCommand(MonitorCommand.Create())
+                .UseDefaults()
+                .Build()
+                .InvokeAsync(args);
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-           Host.CreateDefaultBuilder(args)
-           .ConfigureServices((hostBuilder, services) =>
-           {
-               services.AddHostedService<LogViewerService>();
-               services.Configure<LogViewerServiceOptions>(hostBuilder.Configuration);
-           });
     }
 }

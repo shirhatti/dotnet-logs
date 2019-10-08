@@ -6,6 +6,7 @@
     <ToolCommandName>dotnet-logs</ToolCommandName>
     <RootNamespace>Microsoft.Diagnostics.Tools.Logs</RootNamespace>
     <PackAsTool>true</PackAsTool>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.0" />
+    <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
   </ItemGroup>
 
   <ItemGroup>
