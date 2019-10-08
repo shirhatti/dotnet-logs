@@ -18,19 +18,19 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: LogViewer_win-x64.exe
-        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/win-x64/publish/LogViewer.exe
+        path: /home/runner/work/dotnet-logs/dotnet-logs/src/dotnet-logs/bin/Release/netcoreapp3.0/win-x64/publish/dotnet-logs.exe
     - name: Build osx-x64
       run: dotnet publish -c Release -r osx-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: Upload osx-x64
       uses: actions/upload-artifact@master
       with:
         name: LogViewer_osx-x64
-        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/osx-x64/publish/LogViewer
+        path: /home/runner/work/dotnet-logs/dotnet-logs/src/dotnet-logs/bin/Release/netcoreapp3.0/osx-x64/publish/dotnet-logs
     - name: Build linux-x64
       run: dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true /p:DebugType=None
     - name: Upload win-x64
       uses: actions/upload-artifact@master
       with:
         name: LogViewer_linux-x64
-        path: /home/runner/work/LogViewer/LogViewer/src/LogViewer/bin/Release/netcoreapp3.0/linux-x64/publish/LogViewer
+        path: /home/runner/work/dotnet-logs/dotnet-logs/src/dotnet-logs/bin/Release/netcoreapp3.0/linux-x64/publish/dotnet-logs
 
