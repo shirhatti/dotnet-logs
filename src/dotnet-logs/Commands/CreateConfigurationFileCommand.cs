@@ -12,10 +12,10 @@ namespace Microsoft.Diagnostics.Tools.Logs.Commands
     {
         public static readonly string _configurationFileContents = @"
 {
-  \""Logging\"": {
+  ""Logging"": {
     ""LogLevel"": {
       ""Default"": ""Information"",
-      ""Microsoft"": ""Warning"",
+      ""Microsoft"": ""Warning""
     }
   }
 }";

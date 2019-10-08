@@ -6,7 +6,11 @@
     <ToolCommandName>dotnet-logs</ToolCommandName>
     <RootNamespace>Microsoft.Diagnostics.Tools.Logs</RootNamespace>
     <PackAsTool>true</PackAsTool>
-    <LangVersion>latest</LangVersion>
+    <IsPackable>true</IsPackable>
+    <PackagedShimOutputRootDirectory>$(OutputPath)</PackagedShimOutputRootDirectory>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.0" />
     <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="$(PkgMicrosoft_Diagnostics_Tracing_TraceEvent)\lib\netstandard1.6\Dia2Lib.dll" CopyToOutputDirectory="Never" />
     <None Update="$(PkgMicrosoft_Diagnostics_Tracing_TraceEvent)\lib\netstandard1.6\OSExtensions.dll" CopyToOutputDirectory="Never" />
