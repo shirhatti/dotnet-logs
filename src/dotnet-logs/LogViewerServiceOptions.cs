@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace LogViewer
+namespace Microsoft.Diagnostic.Tools.Logs
 {
     public class LogViewerServiceOptions
     {

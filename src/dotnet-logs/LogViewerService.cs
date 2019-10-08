@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 
-namespace LogViewer
+namespace Microsoft.Diagnostic.Tools.Logs
 {
     public class LogViewerService : BackgroundService
     {
