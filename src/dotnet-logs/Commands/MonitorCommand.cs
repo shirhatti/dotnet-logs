@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Diagnostics.Tools.Logs.Options;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -33,8 +34,7 @@ namespace Microsoft.Diagnostics.Tools.Logs.Commands
                 })
             };
 
-            var processIdOption = new Option("--process-id");
-            command.AddOption(CommandLineOptionsHelper.ProcessIdOption());
+            command.AddOption(ProcessIdOption.Create());
 
             return command;
         }

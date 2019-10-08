@@ -11,6 +11,7 @@ namespace Microsoft.Diagnostics.Tools.Logs
             await new CommandLineBuilder()
                 .AddCommand(ListProcessesCommand.Create())
                 .AddCommand(MonitorCommand.Create())
+                .AddCommand(CreateConfigurationFileCommand.Create())
                 .UseDefaults()
                 .Build()
                 .InvokeAsync(args);

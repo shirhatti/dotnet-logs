@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.CommandLine;
 using System.Text;
 
-namespace Microsoft.Diagnostics.Tools.Logs
+namespace Microsoft.Diagnostics.Tools.Logs.Options
 {
-    internal static class CommandLineOptionsHelper
+    internal static class ProcessIdOption
     {
-        public static Option ProcessIdOption()
+        public static Option Create()
         {
             var option = new Option("--process-id");
             option.AddAlias("-p");
